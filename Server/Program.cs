@@ -31,7 +31,7 @@ namespace SocketTcpServer
 
             Task.Delay(new TimeSpan(0, 0, 20)).ContinueWith(o => { TimeExpired(); });
 
-            Console.ReadLine(); // When we press enter close everything
+            Console.ReadLine(); 
             CloseAllSockets();
         }
 
@@ -48,10 +48,6 @@ namespace SocketTcpServer
             Console.WriteLine("Server setup complete\n");
         }
 
-        /// <summary>
-        /// Close all connected client (we do not need to shutdown the server socket as its connections
-        /// are already closed with the clients).
-        /// </summary>
         private static void CloseAllSockets()
         {
             foreach (Socket socket in clientSockets)
@@ -98,7 +94,6 @@ namespace SocketTcpServer
             catch (SocketException)
             {
                 Console.WriteLine("Client forcefully disconnected\n");
-                // Don't shutdown because the socket may be disposed and its disconnected anyway.
                 current.Close();
                 clientSockets.Remove(current);
                 return;
@@ -125,9 +120,8 @@ namespace SocketTcpServer
                 current.Send(data);
                 Console.WriteLine("Warning Sent\n");
             }
-            else if (text.ToLower() == "exit") // Client wants to exit gracefully
+            else if (text.ToLower() == "exit") 
             {
-                // Always Shutdown before closing
                 current.Shutdown(SocketShutdown.Both);
                 current.Close();
                 clientSockets.Remove(current);

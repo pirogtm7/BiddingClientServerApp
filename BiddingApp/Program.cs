@@ -30,7 +30,6 @@ namespace BiddingApp
                 {
                     attempts++;
                     Console.WriteLine("Connection attempt " + attempts);
-                    // Change IPAddress.Loopback to a remote IP to connect to a remote host.
                     ClientSocket.Connect(IPAddress.Loopback, PORT);
                 }
                 catch (SocketException)
@@ -54,12 +53,9 @@ namespace BiddingApp
             }
         }
 
-        /// <summary>
-        /// Close socket and exit program.
-        /// </summary>
         private static void Exit()
         {
-            SendString("exit"); // Tell the server we are exiting
+            SendString("exit"); 
             ClientSocket.Shutdown(SocketShutdown.Both);
             ClientSocket.Close();
             Environment.Exit(0);
@@ -77,9 +73,6 @@ namespace BiddingApp
             }
         }
 
-        /// <summary>
-        /// Sends a string to the server with ASCII encoding.
-        /// </summary>
         private static void SendString(string text)
         {
             byte[] buffer = Encoding.ASCII.GetBytes(text);
